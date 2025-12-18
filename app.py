@@ -2,58 +2,54 @@ import streamlit as st
 import pandas as pd
 from pathlib import Path
 
-# -------------------------------
-# Page config (MUST be first)
-# -------------------------------
+from data_loader import load_data
+from scorer import score_lead
+from pubmed_agent import pubmed_score
+
 st.set_page_config(
     page_title="3D In-Vitro Lead Intelligence Agent",
     layout="wide"
 )
 
-st.title(" 3D In-Vitro Lead Intelligence Agent")
-st.caption("Stable Streamlit Cloud Deployment")
+st.title("🧪 3D In-Vitro Lead Intelligence Agent")
 
-# -------------------------------
-# Load CSV safely (NO external calls)
-# -------------------------------
 DATA_DIR = Path("data")
 
-linkedin_file = DATA_DIR / "linkedin_input.csv"
-funding_file = DATA_DIR / "funding_data.csv"
+@st.cache_data
+def safe_load_data():
+    try:
+        return load_data()
+    except Exception as e:
+        st.error(f"Data loading failed: {e}")
+        return None
 
-if not linkedin_file.exists():
-    st.error(" linkedin_input.csv not found in data/")
-    st.stop()
+def main():
+    st.info("App started successfully on Streamlit Cloud ✅")
 
-df = pd.read_csv(linkedin_file)
+    df = safe_load_data()
+    if df is None or df.empty:
+        st.warning("No data available.")
+        return
 
+    st.subheader("📊 Input Leads")
+    st.dataframe(df)
 
+    if st.button("Run Lead Scoring"):
+        with st.spinner("Scoring leads…"):
+            scores = []
+            for _, row in df.iterrows():
+                try:
+                    ps = pubmed_score(row.get("title", ""))
+                    score = score_lead(row, ps)
+                except Exception:
+                    score = 0
+                scores.append(score)
 
-# -------------------------------
-# Simple safe scoring (NO PubMed)
-# -------------------------------
-def score_lead(title: str) -> int:
-    keywords = ["toxicology", "safety", "hepatic", "in-vitro", "3d"]
-    title = str(title).lower()
-    return sum(1 for k in keywords if k in title)
+            df["score"] = scores
 
-if "title" not in df.columns:
-    st.error("CSV must contain a 'title' column")
-    st.stop()
+        st.success("Scoring completed ✅")
+        st.subheader("🏆 Scored Leads")
+        st.dataframe(df)
 
-df["score"] = df["title"].apply(score_lead)
-
-# -------------------------------
-# Display
-# -------------------------------
-st.subheader("Scored Leads")
-st.dataframe(df, use_container_width=True)
-
-st.download_button(
-    "⬇️ Download CSV",
-    df.to_csv(index=False),
-    "scored_leads.csv",
-    "text/csv"
-)
-
-
+if __name__ == "__main__":
+    main()
