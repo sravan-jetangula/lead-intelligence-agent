@@ -58,7 +58,7 @@ df["lead_level"] = df["score"].apply(
 )
 
 df["priority"] = df["lead_level"].map({
-    "High": "🔥 Immediate",
+    "High": "Immediate",
     "Medium": "⚠ Follow-up",
     "Low": "🕒 Later"
 })
@@ -83,7 +83,7 @@ if len(df) < 8:
             "linkedin_url": "https://linkedin.com/in/alexcarter",
             "score": 3,
             "lead_level": "High",
-            "priority": "🔥 Immediate",
+            "priority": " Immediate",
             "domain_match": "Yes",
             "contact_ready": "Yes"
         },
@@ -116,7 +116,7 @@ if len(df) < 8:
             "linkedin_url": "",
             "score": 1,
             "lead_level": "Low",
-            "priority": "🕒 Later",
+            "priority": " Later",
             "domain_match": "Yes",
             "contact_ready": "No"
         },
@@ -127,7 +127,7 @@ if len(df) < 8:
             "linkedin_url": "https://linkedin.com/in/rohitverma",
             "score": 2,
             "lead_level": "Medium",
-            "priority": "⚠ Follow-up",
+            "priority": " Follow-up",
             "domain_match": "Yes",
             "contact_ready": "Yes"
         },
@@ -138,7 +138,7 @@ if len(df) < 8:
             "linkedin_url": "https://linkedin.com/in/emilyjohnson",
             "score": 3,
             "lead_level": "High",
-            "priority": "🔥 Immediate",
+            "priority": " Immediate",
             "domain_match": "Yes",
             "contact_ready": "Yes"
         }
