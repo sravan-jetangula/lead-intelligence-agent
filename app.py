@@ -11,17 +11,21 @@ st.set_page_config(
 )
 
 # -------------------------------
-# Title (ONLY ONE LINE as requested)
+# Title
 # -------------------------------
 st.title("🔍 Lead Intelligence Agent")
 
 # -------------------------------
-# Load CSV safely (NO external calls)
+# Run Application button (RELOCATED)
+# -------------------------------
+if st.button("▶ Run Application"):
+    st.toast("Application running...", icon="🚀")
+
+# -------------------------------
+# Load CSV safely
 # -------------------------------
 DATA_DIR = Path("data")
-
 linkedin_file = DATA_DIR / "linkedin_input.csv"
-funding_file = DATA_DIR / "funding_data.csv"
 
 if not linkedin_file.exists():
     st.error("linkedin_input.csv not found in data/")
@@ -30,7 +34,7 @@ if not linkedin_file.exists():
 df = pd.read_csv(linkedin_file)
 
 # -------------------------------
-# Simple safe scoring (NO PubMed)
+# Scoring logic
 # -------------------------------
 def score_lead(title: str) -> int:
     keywords = ["toxicology", "safety", "hepatic", "in-vitro", "3d"]
@@ -44,11 +48,40 @@ if "title" not in df.columns:
 df["score"] = df["title"].apply(score_lead)
 
 # -------------------------------
-# Display
+# ADDITIONAL SAFE COLUMNS
+# -------------------------------
+df["lead_level"] = df["score"].apply(
+    lambda x: "High" if x >= 3 else "Medium" if x == 2 else "Low"
+)
+
+df["priority"] = df["lead_level"].map({
+    "High": "🔥 Immediate",
+    "Medium": "⚠ Follow-up",
+    "Low": "🕒 Later"
+})
+
+df["domain_match"] = df["score"].apply(
+    lambda x: "Yes" if x > 0 else "No"
+)
+
+df["contact_ready"] = df["linkedin_url"].apply(
+    lambda x: "Yes" if isinstance(x, str) and x.startswith("http") else "No"
+)
+
+# -------------------------------
+# Display table
 # -------------------------------
 st.subheader("Scored Leads")
-st.dataframe(df, use_container_width=True)
 
+st.dataframe(
+    df,
+    use_container_width=True,
+    hide_index=True
+)
+
+# -------------------------------
+# Download
+# -------------------------------
 st.download_button(
     label="⬇️ Download CSV",
     data=df.to_csv(index=False),
