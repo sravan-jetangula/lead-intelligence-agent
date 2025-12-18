@@ -1,9 +1,8 @@
-from pathlib import Path
 import pandas as pd
-
-DATA_DIR = Path(__file__).parent / "data"
+from pathlib import Path
 
 def load_data():
-    leads = pd.read_csv(DATA_DIR / "linkedin_input.csv")
-    funding = pd.read_csv(DATA_DIR / "funding_data.csv")
-    return leads.merge(funding, on="company", how="left")
+    data_dir = Path("data")
+    df1 = pd.read_csv(data_dir / "funding_data.csv")
+    df2 = pd.read_csv(data_dir / "linkedin_input.csv")
+    return pd.concat([df1, df2], ignore_index=True)
