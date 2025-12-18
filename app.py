@@ -6,12 +6,14 @@ from pathlib import Path
 # Page config (MUST be first)
 # -------------------------------
 st.set_page_config(
-    page_title="3D In-Vitro Lead Intelligence Agent",
+    page_title="Lead Intelligence Agent",
     layout="wide"
 )
 
-st.title(" 3D In-Vitro Lead Intelligence Agent")
-st.caption("Stable Streamlit Cloud Deployment")
+# -------------------------------
+# Title (ONLY ONE LINE as requested)
+# -------------------------------
+st.title("🔍 Lead Intelligence Agent")
 
 # -------------------------------
 # Load CSV safely (NO external calls)
@@ -22,12 +24,10 @@ linkedin_file = DATA_DIR / "linkedin_input.csv"
 funding_file = DATA_DIR / "funding_data.csv"
 
 if not linkedin_file.exists():
-    st.error(" linkedin_input.csv not found in data/")
+    st.error("linkedin_input.csv not found in data/")
     st.stop()
 
 df = pd.read_csv(linkedin_file)
-
-
 
 # -------------------------------
 # Simple safe scoring (NO PubMed)
@@ -50,10 +50,8 @@ st.subheader("Scored Leads")
 st.dataframe(df, use_container_width=True)
 
 st.download_button(
-    "⬇️ Download CSV",
-    df.to_csv(index=False),
-    "scored_leads.csv",
-    "text/csv"
+    label="⬇️ Download CSV",
+    data=df.to_csv(index=False),
+    file_name="scored_leads.csv",
+    mime="text/csv"
 )
-
-
