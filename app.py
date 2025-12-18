@@ -10,8 +10,7 @@ st.set_page_config(
     layout="wide"
 )
 
-st.title(" 3D In-Vitro Lead Intelligence Agent")
-st.caption("Stable Streamlit Cloud Deployment")
+
 
 # -------------------------------
 # Load CSV safely (NO external calls)
