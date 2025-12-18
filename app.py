@@ -17,10 +17,12 @@ st.title("🔍 Lead Intelligence Agent")
 
 st.markdown(
     """
-    This interactive dashboard analyzes professional profiles from the life-sciences domain 
-    and assigns relevance scores based on role keywords and research focus.  
-    The goal is to surface and prioritize potential collaborators or leads who are most 
-    aligned with advanced **3D in-vitro, safety, and toxicology-driven research workflows**.
+    This interactive dashboard evaluates life-science professional profiles
+    and assigns relevance scores based on role keywords and research focus.
+
+    It helps identify and prioritize potential collaborators or industry leads
+    aligned with **3D in-vitro models, toxicology, safety assessment,
+    and advanced biological research workflows**.
     """
 )
 
@@ -51,28 +53,34 @@ if "title" not in df.columns:
 df["score"] = df["title"].apply(score_lead)
 
 # -------------------------------
-# ADDITIONAL ENRICHED COLUMNS
+# Enriched columns
 # -------------------------------
 df["lead_level"] = df["score"].apply(
     lambda x: "High" if x >= 3 else "Medium" if x == 2 else "Low"
 )
 
-df["priority"] = df["lead_level"].map({
-    "High": "Immediate",
-    "Medium": "⚠ Follow-up",
-    "Low": " Later"
-})
+df["priority"] = df["lead_level"].map(
+    {
+        "High": "Immediate",
+        "Medium": "Follow-up",
+        "Low": "Later",
+    }
+)
 
 df["domain_match"] = df["score"].apply(
     lambda x: "Yes" if x > 0 else "No"
 )
 
-df["contact_ready"] = df["linkedin_url"].apply(
-    lambda x: "Yes" if isinstance(x, str) and x.startswith("http") else "No"
-)
+if "linkedin_url" in df.columns:
+    df["contact_ready"] = df["linkedin_url"].apply(
+        lambda x: "Yes" if isinstance(x, str) and x.startswith("http") else "No"
+    )
+else:
+    df["linkedin_url"] = ""
+    df["contact_ready"] = "No"
 
 # -------------------------------
-# ADD 6 MORE DEMO ROWS (SAFE)
+# Add 6 demo rows (safe & optional)
 # -------------------------------
 if len(df) < 8:
     extra_rows = [
@@ -83,9 +91,9 @@ if len(df) < 8:
             "linkedin_url": "https://linkedin.com/in/alexcarter",
             "score": 3,
             "lead_level": "High",
-            "priority": " Immediate",
+            "priority": "Immediate",
             "domain_match": "Yes",
-            "contact_ready": "Yes"
+            "contact_ready": "Yes",
         },
         {
             "name": "Priya Nair",
@@ -94,9 +102,9 @@ if len(df) < 8:
             "linkedin_url": "https://linkedin.com/in/priyanair",
             "score": 2,
             "lead_level": "Medium",
-            "priority": " Follow-up",
+            "priority": "Follow-up",
             "domain_match": "Yes",
-            "contact_ready": "Yes"
+            "contact_ready": "Yes",
         },
         {
             "name": "Daniel Wong",
@@ -105,20 +113,20 @@ if len(df) < 8:
             "linkedin_url": "https://linkedin.com/in/danwong",
             "score": 2,
             "lead_level": "Medium",
-            "priority": " Follow-up",
+            "priority": "Follow-up",
             "domain_match": "Yes",
-            "contact_ready": "Yes"
+            "contact_ready": "Yes",
         },
         {
-            "name": "Sara Müller",
+            "name": "Sara Muller",
             "company": "BioCore Labs",
             "title": "Research Associate",
-            "linkedin_url": ""https://linkedin.com/in/Sara Müller",",
+            "linkedin_url": "",
             "score": 1,
             "lead_level": "Low",
-            "priority": " Later",
+            "priority": "Later",
             "domain_match": "Yes",
-            "contact_ready": "No"
+            "contact_ready": "No",
         },
         {
             "name": "Rohit Verma",
@@ -127,9 +135,9 @@ if len(df) < 8:
             "linkedin_url": "https://linkedin.com/in/rohitverma",
             "score": 2,
             "lead_level": "Medium",
-            "priority": " Follow-up",
+            "priority": "Follow-up",
             "domain_match": "Yes",
-            "contact_ready": "Yes"
+            "contact_ready": "Yes",
         },
         {
             "name": "Emily Johnson",
@@ -138,10 +146,10 @@ if len(df) < 8:
             "linkedin_url": "https://linkedin.com/in/emilyjohnson",
             "score": 3,
             "lead_level": "High",
-            "priority": " Immediate",
+            "priority": "Immediate",
             "domain_match": "Yes",
-            "contact_ready": "Yes"
-        }
+            "contact_ready": "Yes",
+        },
     ]
 
     df = pd.concat([df, pd.DataFrame(extra_rows)], ignore_index=True)
@@ -154,7 +162,7 @@ st.subheader("Scored Leads")
 st.dataframe(
     df,
     use_container_width=True,
-    hide_index=True
+    hide_index=True,
 )
 
 # -------------------------------
@@ -164,5 +172,5 @@ st.download_button(
     label="⬇️ Download CSV",
     data=df.to_csv(index=False),
     file_name="scored_leads.csv",
-    mime="text/csv"
+    mime="text/csv",
 )
