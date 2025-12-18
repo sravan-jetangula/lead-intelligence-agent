@@ -3,8 +3,7 @@ import app  # your existing app.py
 
 st.set_page_config(page_title="Lead Intelligence Agent", layout="wide")
 
-if st.button("Run Application"):
-    st.write("Running core logic...")
+
     if hasattr(app, "main"):
         app.main()
     else:
