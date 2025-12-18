@@ -60,7 +60,7 @@ df["lead_level"] = df["score"].apply(
 df["priority"] = df["lead_level"].map({
     "High": "Immediate",
     "Medium": "⚠ Follow-up",
-    "Low": "🕒 Later"
+    "Low": " Later"
 })
 
 df["domain_match"] = df["score"].apply(
@@ -94,7 +94,7 @@ if len(df) < 8:
             "linkedin_url": "https://linkedin.com/in/priyanair",
             "score": 2,
             "lead_level": "Medium",
-            "priority": "⚠ Follow-up",
+            "priority": " Follow-up",
             "domain_match": "Yes",
             "contact_ready": "Yes"
         },
@@ -105,7 +105,7 @@ if len(df) < 8:
             "linkedin_url": "https://linkedin.com/in/danwong",
             "score": 2,
             "lead_level": "Medium",
-            "priority": "⚠ Follow-up",
+            "priority": " Follow-up",
             "domain_match": "Yes",
             "contact_ready": "Yes"
         },
@@ -113,7 +113,7 @@ if len(df) < 8:
             "name": "Sara Müller",
             "company": "BioCore Labs",
             "title": "Research Associate",
-            "linkedin_url": "",
+            "linkedin_url": ""https://linkedin.com/in/Sara Müller",",
             "score": 1,
             "lead_level": "Low",
             "priority": " Later",
