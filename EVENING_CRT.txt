@@ -1,0 +1,68 @@
+19|12|2025
+-------------
+PSEUDO CODES:-
+____________________
+1) What is the output os pseudocode
+ integer p,q,r
+ set p=1,q=2,r=10
+ if((1+p)<q||(r+3)<3)
+ q=9+q
+ if ((q=p+r)<(r+6))
+ p=(p+q+r)
+ if 
+ r=q+p
+ end if
+ p+q+r      //ans =13
+________________________________________________
+2)
+a=5 b=2
+integer funn(integer a,integer b)
+if(1>b &&4>b)
+a=(b+3)+a
+a=2+a+a
+b=1+b+b
+return funn (a+1,b+2)+2+funn(a-1,a+1)
+end if
+a+(a+2)+a
+return a  //(5+2)+5=12
+-----------------------------------------
+3)pp=3
+  qq=8
+  rr= 6
+integer pp,qq,rr
+setpp=3,qq=8,rr=6
+for (each rr from 5to8)
+if ((qq+pp)>(pp+qq))
+continue
+end if 
+qq=1+rr //7 8 9
+end for
+print pp + qq   //3+9=12
+ ---------------------------------------------------------
+4) a=10,b=20
+integer funn(integer a, integer b)
+if(4<a&&(1^a)>(a+b))
+b=(b+2)+a
+b=a+1
+return funn(a,b)+funn(a,b+a)
+end if
+a=(b+3)+b
+return a+b //63
+-------------------------------------------------
+integer p,q,r
+set p=2,q=2,r=1
+
+for (each r from 2 to 3)
+q=(r+9)+p
+q=q+r
+end for
+print p+q //19
+
+
+
+
+
+
+
+
+
