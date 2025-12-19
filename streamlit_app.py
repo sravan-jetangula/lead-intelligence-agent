@@ -112,7 +112,7 @@ extra_rows = [
         "name": "Sara Muller",
         "company": "BioCore Labs",
         "title": "Research Associate",
-        "linkedin_url": "",
+        "linkedin_url": "https://linkedin.com/in/SaraMuller",
         "score": 1,
         "lead_level": "Low",
         "priority": "Later",
